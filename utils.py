@@ -27,3 +27,6 @@ def guess():
     results = [True, False, *list(user_guess)]
     result = results[parse("Result", results) - 1]
     return user_guess, target, result
+
+def sample_player():
+	return (Person.White, Person.Green, Room.Hall, Room.Library, Weapon.Knife, Weapon.Rope)
