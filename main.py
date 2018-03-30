@@ -8,11 +8,13 @@ def filter_possibilities(realities, target, guess, result):
 
 
 
+startcards = utils.remove_list(all_cards(), utils.sample_player())
+all = all_possibilities([utils.sample_player()], startcards, 3)
 
-all = all_possibilities([utils.sample_player()], all_cards()-set(utils.sample_player()),3)
 s = solution_sets(all)
 print(s)
 print(len(s))
+debug_print(all)
 
 guess = {Weapon.Revolver, Person.Plum, Room.Ballroom}
 result = False
@@ -21,6 +23,7 @@ all = filter_possibilities(all, target, guess, result)
 s = solution_sets(all)
 print(s)
 print(len(s))
+debug_print(all)
 
 
 target = 3
@@ -28,6 +31,7 @@ all = filter_possibilities(all, target, guess, result)
 s = solution_sets(all)
 print(s)
 print(len(s))
+debug_print(all)
 
 x = 23
 

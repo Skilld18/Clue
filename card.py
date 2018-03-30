@@ -1,4 +1,5 @@
 from enum import Enum
+import utils
 from itertools import product, combinations, chain
 import math
 
@@ -7,20 +8,20 @@ Person = Enum('Person', 'White Plum Scarlett Mustard Green Peacock')
 Weapon = Enum('Weapon', 'Knife Candlestick Rope Pipe Wrench Revolver')
 
 def all_cards():
-    return set(Room) | set(Person) | set(Weapon)
+    return list(Room) + list(Person) + list(Weapon)
 
 
 def possible_solutions(cards):
-    r = set()
-    w = set()
-    p = set()
+    r = []
+    w = []
+    p = []
     for card in cards:
         if type(card) is Room:
-            r.add(card)
+            r.append(card)
         if type(card) is Weapon:
-            w.add(card)
+            w.append(card)
         if type(card) is Person:
-            p.add(card)
+            p.append(card)
     return list(product(r, w, p))
 
 
@@ -46,12 +47,15 @@ def all_possibilities(realities, remaining, num_players):
     realities = product(realities, possible_solutions(remaining))
     newList = []
     for a in list(realities):
-        used = set(chain(*a))
-        player_cards = list(possible_player_cards(all_cards()-used, 6))
+        used = list(chain(*a))
+        rem = utils.remove_list(all_cards(), used)
+        player_cards = list(possible_player_cards(rem, 6))
         for b in player_cards:
             sublist = list(a)
             sublist.append(b)
-            sublist.append(tuple(all_cards() - used -set(b)))
+            rem = utils.remove_list(all_cards(), used)
+            rem = utils.remove_list(rem, b)
+            sublist.append(tuple(rem))
             newList.append(sublist)
     return newList
 
@@ -60,4 +64,28 @@ def solution_sets(realities):
     for a in realities:
         solution_sets.add(frozenset(a[1]))
     return solution_sets
+
+def debug_print(realities):
+    chances = dict()
+    for pos in realities:
+        for i, player in enumerate(pos):
+            for card in player:
+                if not str(i) + str(card) in chances:
+                    chances[str(i) + str(card)] = 0
+                chances[str(i) + str(card)] += 1
+                if not str(i) in chances:
+                    chances[str(i)] = 0
+                chances[str(i)] += 1
+    for i,player in enumerate(realities[0]):
+        for card in all_cards():
+            if str(i) + str(card) in chances:
+                print("Player " + str(i) + " has " + str(card) + " " + str(chances[str(i) + str(card)]/chances[str(i)] * len(realities[0][i])))
+
+
+
+
+
+
+
+
 

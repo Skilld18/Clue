@@ -30,3 +30,8 @@ def guess():
 
 def sample_player():
 	return (Person.White, Person.Green, Room.Hall, Room.Library, Weapon.Knife, Weapon.Rope)
+
+def remove_list(orig, rem):
+    return [x for x in orig if x not in rem]
+
+
