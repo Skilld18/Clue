@@ -48,7 +48,7 @@ def flatten(data):
 
 def all_possibilities(realities, num_players, current_player):
     if num_players == current_player:
-        return realities
+        return
 
     used_card_count = 0
     for player in realities[0]:
@@ -64,13 +64,14 @@ def all_possibilities(realities, num_players, current_player):
         else:
             current_cards = list(possible_player_cards(remaining, num_cards_for_player))
         for i in current_cards:
-            new_realities.append([*r, i])
-            x = 2
-        print(len(new_realities))
+            if current_player + 1 == num_players:
+                test = [*r, i]
+                yield test
+            else:
+                new_realities.append([*r, i])
 
 
-
-    return all_possibilities(new_realities, num_players, current_player + 1)
+    yield from all_possibilities(new_realities, num_players, current_player + 1)
 
 
 

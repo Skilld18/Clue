@@ -10,7 +10,10 @@ def filter_possibilities(realities, target, guess, result):
 
 print("hello")
 start = time.time()
-all = all_possibilities([[utils.sample_player5()]], 4, 0)
+all = all_possibilities([[utils.sample_player6()]], 3, 0)
+for a in all:
+    print(a)
+all = list(all)
 end = time.time()
 print(end - start)
 print("bye")
