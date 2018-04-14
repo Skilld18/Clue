@@ -1,3 +1,4 @@
+import time
 import utils
 from card import *
 
@@ -7,9 +8,12 @@ def filter_possibilities(realities, target, guess, result):
     return list(filter(lambda possibility: bool(result) == bool(guess & set(possibility[target])), realities))
 
 
-
-startcards = utils.remove_list(all_cards(), utils.sample_player())
-all = all_possibilities([utils.sample_player()], startcards, 3)
+print("hello")
+start = time.time()
+all = all_possibilities([[utils.sample_player5()]], 4, 0)
+end = time.time()
+print(end - start)
+print("bye")
 
 #s = solution_sets(all)
 #print(s)

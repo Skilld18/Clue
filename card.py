@@ -7,6 +7,9 @@ Room = Enum('Room', 'Hall Lounge Dining Kitchen Ballroom Conservatory Billiard L
 Person = Enum('Person', 'White Plum Scarlett Mustard Green Peacock')
 Weapon = Enum('Weapon', 'Knife Candlestick Rope Pipe Wrench Revolver')
 
+know_have = []
+know_doesnt_have = []
+
 def all_cards():
     return list(Room) + list(Person) + list(Weapon)
 
@@ -32,7 +35,8 @@ def possible_player_cards(remaining, n):
 def remaining_cards(possibility):
     cards = all_cards()
     for player in possibility:
-        cards -= player
+        for card in player:
+            cards.remove(card)
     return cards
 
 def player_recurse(remaining, num_players):
@@ -42,22 +46,41 @@ def flatten(data):
     return chain(*data)
 
 
-def all_possibilities(realities, remaining, num_players):
-    # player_cards = math.ceil(len(remaining) / num_players)
-    realities = product(realities, possible_solutions(remaining))
-    newList = []
-    for a in list(realities):
-        used = list(chain(*a))
-        rem = utils.remove_list(all_cards(), used)
-        player_cards = list(possible_player_cards(rem, 6))
-        for b in player_cards:
-            sublist = list(a)
-            sublist.append(b)
-            rem = utils.remove_list(all_cards(), used)
-            rem = utils.remove_list(rem, b)
-            sublist.append(tuple(rem))
-            newList.append(sublist)
-    return newList
+def all_possibilities(realities, num_players, current_player):
+    if num_players == current_player:
+        return realities
+
+    used_card_count = 0
+    for player in realities[0]:
+        used_card_count += len(player)
+
+    num_cards_for_player = math.ceil((21-used_card_count)/(num_players -current_player))
+    new_realities = []
+
+    for r in realities:
+        remaining = remaining_cards(r)
+        if not current_player:
+            current_cards = possible_solutions(remaining)
+        else:
+            current_cards = list(possible_player_cards(remaining, num_cards_for_player))
+        for i in current_cards:
+            new_realities.append([*r, i])
+            x = 2
+        print(len(new_realities))
+
+
+
+    return all_possibilities(new_realities, num_players, current_player + 1)
+
+
+
+def new_pos(player, totalPlayers):
+    if player == 0:
+        remaing = utils.remove_list(all_cards(), realities[0])
+        realities = product(realities, possible_solutions(remaining))
+
+
+
 
 def solution_sets(realities):
     solution_sets = set()
@@ -82,7 +105,7 @@ def debug_print(realities):
         if not str(1) + str(pos[1]) in chances:
             chances[str(1) + str(pos[1])] = 0
         chances[str(1) + str(pos[1])] += 1
-        totalSol+= 1
+        totalSol += 1
 
     for i,player in enumerate(realities[0]):
         for card in all_cards():
@@ -124,11 +147,6 @@ def debug_print(realities):
 
 
     print("The most likely solution set is: " + str(sol) + " at " + str(solMax/totalSol))
-
-
-
-
-
 
 
 
