@@ -1,56 +1,40 @@
 import time
-import utils
 from card import *
+import utils
 
-def filter_possibilities(realities, target, guess, result):
-    if not type(result) is bool:
-        guess &= result
-    return list(filter(lambda possibility: bool(result) == bool(guess & set(possibility[target])), realities))
+
+def filter_possibilities(realities, tar, user_guess, res):
+    if not type(res) is bool:
+        user_guess &= res
+    return list(filter(lambda possibility: bool(res) == bool(user_guess & set(possibility[tar])), realities))
 
 
 print("hello")
 start = time.time()
-all = all_possibilities([[utils.sample_player6()]], 3, 0)
-for a in all:
+all_pos = all_possibilities([[utils.sample_player6()]], 3, 0)
+count = 0
+for a in all_pos:
     print(a)
-all = list(all)
+    count += 1
+    print(count)
 end = time.time()
 print(end - start)
 print("bye")
 
-#s = solution_sets(all)
-#print(s)
-#print(len(s))
-debug_print(all)
+s = solution_sets(all_pos)
+print(s)
+print(len(s))
+debug_print(all_pos)
 
 guess = {Weapon.Revolver, Person.Plum, Room.Ballroom}
 result = False
 target = 2
-all = filter_possibilities(all, target, guess, result)
-#s = solution_sets(all)
-#print(s)
-#print(len(s))
-debug_print(all)
+all_pos = filter_possibilities(all_pos, target, guess, result)
+debug_print(all_pos)
 
 
 target = 3
 result = {Room.Ballroom}
-all = filter_possibilities(all, target, guess, result)
-#s = solution_sets(all)
-#print(s)
-#print(len(s))
-debug_print(all)
+all_pos = filter_possibilities(all_pos, target, guess, result)
+debug_print(all_pos)
 
-x = 23
-
-
-# for a in all:
-# if not Room.Ballroom in a[2]:
-#     print("fail")
-#     exit(1)
-# if guess & set(a[2]):
-#     print("fail")
-#     exit(1)
-# if not guess & set(a[2]):
-#     print("fail")
-#     exit(1)
