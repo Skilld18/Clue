@@ -13,7 +13,7 @@ def parse(msg, options):
         except ValueError:
             continue
         break
-    return ret
+    return options[ret-1]
 
 
 def guess():

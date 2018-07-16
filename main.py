@@ -5,36 +5,28 @@ import utils
 
 def filter_possibilities(realities, tar, user_guess, res):
     if not type(res) is bool:
-        user_guess &= res
-    return list(filter(lambda possibility: bool(res) == bool(user_guess & set(possibility[tar])), realities))
+        return list(filter(lambda x: res & set(x[tar]), realities))
+    return list(filter(lambda x: result == bool(user_guess & set(x[tar])), realities))
 
 
-print("hello")
-start = time.time()
-all_pos = all_possibilities([[utils.sample_player6()]], 3, 0)
-count = 0
-for a in all_pos:
-    print(a)
-    count += 1
-    print(count)
-end = time.time()
-print(end - start)
-print("bye")
+all_pos = list(all_possibilities([[utils.sample_player6()]], 3, 0))
 
-s = solution_sets(all_pos)
-print(s)
-print(len(s))
-debug_print(all_pos)
+while True:
+    count = 0
+    for a in all_pos:
+        print(count, end=" ")
+        print(a)
+        count += 1
+    # debug_print(all_pos)
+    target = utils.parse("Target ", range(1,4))
+    room = utils.parse("Room ", list(Room))
+    weapon = utils.parse("Weapon ", list(Weapon))
+    person = utils.parse("Person ", list(Person))
+    result = utils.parse("Result", [{room}, {person}, {weapon}, False, True])
 
-guess = {Weapon.Revolver, Person.Plum, Room.Ballroom}
-result = False
-target = 2
-all_pos = filter_possibilities(all_pos, target, guess, result)
-debug_print(all_pos)
+    all_pos = list(filter_possibilities(all_pos,
+                                   target, {room, weapon, person},result))
 
 
-target = 3
-result = {Room.Ballroom}
-all_pos = filter_possibilities(all_pos, target, guess, result)
-debug_print(all_pos)
+
 
