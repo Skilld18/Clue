@@ -1,7 +1,14 @@
 from card import *
 
+def cards_per_player(players, player_index):
+    if players == 4 and player_index <= 1:
+        return 5
+    if players == 5 and player_index <= 2:
+        return 4
+    return 18 // players
 
 def parse(msg, options):
+    ret = ""
     while True:
         print(msg)
         for i, opt in enumerate(options):
@@ -27,25 +34,4 @@ def guess():
     results = [True, False, *list(user_guess)]
     result = results[parse("Result", results) - 1]
     return user_guess, target, result
-
-
-def sample_player6():
-    return Person.White, Person.Green, Room.Hall, Room.Library, Weapon.Knife, Weapon.Rope
-
-
-def sample_player5():
-    return Person.White, Person.Green, Room.Hall, Room.Library, Weapon.Knife
-
-
-def sample_player4():
-    return Person.White, Person.Green, Room.Hall, Room.Library
-
-
-def sample_player3():
-    return Person.White, Person.Green, Room.Hall
-
-
-def remove_list(orig, rem):
-    return [x for x in orig if x not in rem]
-
 

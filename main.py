@@ -1,32 +1,39 @@
-import time
+import itertools
 from card import *
 import utils
+from table import deal_with_pos
 
+players = 3
+player1 = (Person.Plum, Person.Scarlett, Weapon.Pipe, Weapon.Revolver, Room.Hall, Room.Conservatory)
+valid_card_set = set(all_cards()) - set(player1)
 
-def filter_possibilities(realities, tar, user_guess, res):
-    if not type(res) is bool:
-        return list(filter(lambda x: res & set(x[tar]), realities))
-    return list(filter(lambda x: result == bool(user_guess & set(x[tar])), realities))
+possible_solutions = filter(lambda x: x[0] not in player1 and x[1] not in player1 and x[2] not in player1,
+                            all_solutions())
 
+total = []
 
-all_pos = list(all_possibilities([[utils.sample_player6()]], 3, 0))
+player2 = []
+for solution in possible_solutions:
+    valid_card_set = set(all_cards()) - set(player1) - set(solution)
+    player2pos = itertools.combinations(valid_card_set, utils.cards_per_player(players, 1))
+    for pos in player2pos:
+        player3 = set(all_cards()) - set(solution) - set(pos) - set(player1)
+        player3 = tuple(player3)
+        total.append((player1, solution, pos, player3))
 
-while True:
-    count = 0
-    for a in all_pos:
-        print(count, end=" ")
-        print(a)
-        count += 1
-    # debug_print(all_pos)
-    target = utils.parse("Target ", range(1,4))
-    room = utils.parse("Room ", list(Room))
-    weapon = utils.parse("Weapon ", list(Weapon))
-    person = utils.parse("Person ", list(Person))
-    result = utils.parse("Result", [{room}, {person}, {weapon}, False, True])
+# total = list(filter(lambda x: Weapon.Wrench in x[1], total))
+total = list(filter(lambda x: Weapon.Rope in x[2], total))
+total = list(filter(lambda x: Person.White not in x[3] and Room.Hall not in x[3] and Weapon.Wrench not in x[3], total))
+total = list(filter(lambda x: Room.Kitchen in x[3], total))
+total = list(
+    filter(lambda x: Person.White not in x[2] and Room.Kitchen not in x[2] and Weapon.Wrench not in x[2], total))
+total = list(
+    filter(lambda x: Person.Plum not in x[3] and Room.Library not in x[3] and Weapon.Revolver not in x[3], total))
+total = list(filter(lambda x: Room.Dining in x[2], total))
+total = list(filter(lambda x: Room.Billiard in x[3] or Weapon.Wrench in x[3] or Person.Mustard in x[3], total))
+total = list(filter(lambda x: Room.Ballroom in x[2] or Weapon.Knife in x[2] or Person.White in x[2], total))
+total = list(filter(lambda x: Room.Ballroom in x[2] or Weapon.Knife in x[2] or Person.White in x[2], total))
+total = list(filter(lambda x: Room.Conservatory in x[3] or Weapon.Pipe in x[3] or Person.Mustard in x[3], total))
 
-    all_pos = list(filter_possibilities(all_pos,
-                                   target, {room, weapon, person},result))
-
-
-
-
+# 2 has green rope terrace
+deal_with_pos(total)
