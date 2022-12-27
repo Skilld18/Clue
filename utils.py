@@ -1,5 +1,11 @@
 from card import *
 
+def in_player(acc, player):
+    for a in acc:
+        if a in player:
+            return True
+    return False
+
 def cards_per_player(players, player_index):
     if players == 4 and player_index <= 1:
         return 5
