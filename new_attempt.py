@@ -22,51 +22,69 @@ def clean(not_list, pos):
     pos = list(filter(lambda x: not set(x) & set(not_list), pos))
     return pos
 
+guess1 = [Person.Green, Weapon.Pipe, Room.Hall]
+guess2 = [Person.Scarlett, Weapon.Pipe, Room.Kitchen]
+guess3 = [Person.Plum, Weapon.Knife, Room.Dining]
+guess4 = [Person.Green, Weapon.Wrench, Room.Lounge]
+guess5 = [Person.Green, Weapon.Pipe, Room.Study]
+guess6 = [Person.Plum, Weapon.Candlestick, Room.Library]
+guess7 = [Person.White, Weapon.Rope, Room.Kitchen]
+guess8 = [Person.Peacock, Weapon.Rope, Room.Hall]
+guess9 = [Person.White, Weapon.Wrench, Room.Library]
+guess10 = [Person.Green, Weapon.Pipe, Room.Billiard]
+guess11 = [Person.Green, Weapon.Candlestick, Room.Billiard]
+guess12 = [Person.Mustard, Weapon.Candlestick, Room.Dining]
+guess13 = [Person.Green, Weapon.Knife, Room.Ballroom]
+guess14 = [Person.Peacock, Weapon.Rope, Room.Study]
+guess15 = [Person.Green, Weapon.Pipe, Room.Conservatory]
+
+
 sc = [
     list(Room),
     list(Weapon),
     list(Person)
 ]
 
+p11 = Person.Mustard
+p12 = Room.Hall
+p13 = Weapon.Candlestick
+p1_list = [p11, p12, p13]
+
 p1c = [
-    [Person.Peacock],
-    [Room.Conservatory],
-    [Room.Hall],
+    [p11],
+    [p12],
+    [p13],
 ]
 p2c = [
-    [Person.Peacock, Weapon.Rope, Room.Billiard],
-    [Person.Peacock, Weapon.Revolver, Room.Kitchen],
-    [Person.Scarlett, Weapon.Knife, Room.Dining],
-    [Person.White, Weapon.Wrench, Room.Kitchen],
+    [Room.Study],
+    guess14,
+    [Room.Conservatory],
 ]
 
 p3c = [
-    [Person.White, Weapon.Pipe, Room.Library],
-    [Person.White, Weapon.Revolver, Room.Hall],
-    [Person.Peacock, Weapon.Rope, Room.Dining],
-    [Person.Peacock, Weapon.Rope, Room.Hall],
-
+    guess4,
+    guess6,
+    guess9,
 ]
 p4c = [
-    [Weapon.Revolver],
-    [Person.Mustard, Weapon.Knife, Room.Dining],
+    guess2,
 ]
 p5c = [
-    [Person.Green, Weapon.Pipe, Room.Ballroom],
+    guess3,
+    guess7,
+    guess13,
 ]
 p6c = [
-    [Person.Green, Weapon.Candlestick, Room.Library],
-    [Person.Plum, Weapon.Pipe, Room.Study],
-    [Person.Plum, Weapon.Rope, Room.Study],
+    [Room.Billiard],
+    guess11,
 ]
 
-
-
-p2_not = tuple([Person.Peacock, Weapon.Rope, Room.Dining, Person.Peacock, Weapon.Rope, Room.Dining])
-p3_not = tuple([Person.Plum, Weapon.Pipe, Room.Study])
-p4_not = tuple([Person.Plum, Weapon.Pipe, Room.Study])
-p5_not = tuple([Person.Peacock, Weapon.Rope, Room.Billiard, Person.Green, Weapon.Candlestick, Room.Library, Person.Plum, Weapon.Pipe, Room.Study, Person.Plum, Weapon.Rope, Room.Study])
-p6_not = tuple([Person.Peacock, Weapon.Rope, Room.Billiard, Person.Peacock, Weapon.Revolver, Room.Kitchen, Person.Green, Weapon.Pipe, Room.Ballroom, Person.Peacock, Weapon.Rope, Room.Dining])
+s_not = tuple([])
+p2_not = tuple([*guess4, *guess9, *guess10])
+p3_not = tuple([*guess1, *guess10, *guess11])
+p4_not = tuple([*guess1, *guess10, *guess11, *guess12])
+p5_not = tuple([*guess1, *guess10, *guess11, *guess12])
+p6_not = tuple([*guess1, *guess8, *guess12, *guess14])
 
 p6 = None
 p5 = None
@@ -75,9 +93,9 @@ count = 0
 
 dex = 0
 prob = dict()
-print(len(list(player([Person.Peacock, Room.Conservatory, Room.Hall, Weapon.Revolver], sc))))
+print(len(list(player(p1_list + list(s_not), sc))))
 for p1 in player([], p1c):
-    for s in player([Person.Peacock, Room.Conservatory, Room.Hall, Weapon.Revolver], sc):
+    for s in player(p1 + s_not, sc):
         dex += 1
         print(dex)
         for p2 in player(s + p1 + p2_not, p2c):
@@ -85,15 +103,16 @@ for p1 in player([], p1c):
                 for p4 in player(s + p1 + p2 + p3 + p4_not, p4c):
                     for p5 in player(s + p1 + p2 + p3 + p4 + p5_not, p5c):
                         for p6 in player(s + p1 + p2 + p3 + p4 + p5 + p6_not, p6c):
-                            if str(s[0]) not in prob:
-                                prob[str(s[0])] = 0
-                            prob[str(s[0])] += 1
-                            if str(s[1]) not in prob:
-                                prob[str(s[1])] = 0
-                            prob[str(s[1])] += 1
-                            if str(s[2]) not in prob:
-                                prob[str(s[2])] = 0
-                            prob[str(s[2])] += 1
+                            pass
+                            # if str(s[0]) not in prob:
+                            #     prob[str(s[0])] = 0
+                            # prob[str(s[0])] += 1
+                            # if str(s[1]) not in prob:
+                            #     prob[str(s[1])] = 0
+                            # prob[str(s[1])] += 1
+                            # if str(s[2]) not in prob:
+                            #     prob[str(s[2])] = 0
+                            # prob[str(s[2])] += 1
                             total_key = str(sorted([str(s[0]), str(s[1]),str(s[2])]))
                             if total_key not in prob:
                                 prob[total_key] = 0
@@ -102,7 +121,6 @@ for p1 in player([], p1c):
                             count += 1
                             if count % 1000000 == 0:
                                 print(p1, s, p2, p3, p4, p5, p6)
-                                # for p6 in player(s + p1 + p2 + p3 + p4 + p5, p6c):
 
 for k in sorted(prob, key=prob.get, reverse=True):
     print((prob[k] / count).__format__("0.3f"), k)
