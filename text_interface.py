@@ -35,6 +35,16 @@ def get_condition(query):
     return int(ans)
 
 
+def player_cards():
+    cards = []
+    while len(cards) < 6:
+        for i, car in enumerate(card.all_cards()):
+            print(i, car)
+        cards.append(card.all_cards()[int(input("Card: "))])
+    return cards
+
+
+
 def construct_query():
     person = get_person()
     room = get_room()
@@ -43,10 +53,3 @@ def construct_query():
     cond = get_condition((person, weapon, room))
     return player, (person, room, weapon), cond
 
-# player_index, query, condition = text_interface.construct_query()
-# if condition == 2:
-#     p_not[player_index] = (*p_not[player_index], *query)
-# elif condition == 0:
-#     pc[player_index] = (*pc[player_index], *query)
-# else:
-#     pc[player_index] = (*pc[player_index], condition)

@@ -45,11 +45,11 @@ def deal_with_pos(total):
         print(("Player" + str(i)).ljust(14), end="")
         for card in all_cards():
             percent = data[i, card] / total_len
-            percent = round(percent, 3)
+            percent = round(percent, 2)
             print(str(percent).ljust(14), end="")
         print()
     print("Current Best solutions")
     canididates = {k: v for k, v in sorted(sol_set.items(), key=lambda item: item[1], reverse=True)}
     for i in range(10):
         key = list(canididates.keys())[i]
-        print(str(round(canididates[key]/total_len,3)).ljust(6) +str(list(canididates.keys())[i]).ljust(50))
+        print(str(round(canididates[key]/total_len,2)).ljust(6) +str(list(canididates.keys())[i]).ljust(50))

@@ -1,10 +1,13 @@
+from collections.abc import MutableSet
 import itertools
 from card import *
+from text_interface import construct_query, player_cards
 import utils
 from table import deal_with_pos
 
 players = 3
-player1 = (Person.Plum, Weapon.Revolver, Weapon.Wrench, Room.Conservatory, Room.Ballroom, Room.Dining)
+player1 = player_cards()
+print(player1)
 valid_card_set = set(all_cards()) - set(player1)
 
 possible_solutions = filter(lambda x: x[0] not in player1 and x[1] not in player1 and x[2] not in player1,
@@ -29,37 +32,14 @@ def not_in_player(cards, player, total):
 
 def in_player_blind(cards, player, total):
     return list(filter(lambda x: cards[0] in x[player] or cards[1] in x[player] or cards[2] in x[player], total))
+#1
 
-# total = not_in_player((Person.Peacock, Weapon.Revolver, Room.Hall),2, total)
-# total = in_player_blind((Person.Peacock, Weapon.Revolver, Room.Hall), 3, total)
-# total = in_player(Room.Hall, 2, total)
-total = in_player_blind((Person.Plum, Weapon.Revolver, Room.Library), 3, total)
-total = in_player(Person.White, 2, total)
-total = in_player_blind((Person.Peacock, Weapon.Pipe, Room.Billiard), 3, total)
-total = in_player(Room.Lounge, 2, total)
-total = in_player_blind((Person.Green, Weapon.Knife, Room.Ballroom), 3, total)
-total = in_player(Weapon.Candlestick, 2, total)
-total = in_player_blind((Person.Peacock, Weapon.Knife, Room.Dining), 3, total)
-total = in_player_blind((Person.Mustard, Weapon.Rope, Room.Lounge), 3, total)
-total = in_player(Person.Scarlett , 2, total)
-total = in_player_blind((Person.Peacock, Weapon.Pipe, Room.Hall), 3, total)
-total = not_in_player((Person.Green, Weapon.Pipe, Room.Billiard), 2, total)
-total = in_player(Room.Billiard, 3, total)
-total = not_in_player((Person.Green, Weapon.Pipe, Room.Hall), 2, total)
-total = in_player(Room.Hall, 3, total)
-total = not_in_player((Person.Green, Weapon.Revolver, Room.Study), 3, total)
-total = in_player_blind((Person.Green, Weapon.Pipe, Room.Library), 3, total)
-total = in_player_blind((Person.Green, Weapon.Candlestick, Room.Lounge), 2, total)
-#high percentage and correct
-
-
-
-
-
-
-
-
-
-
-# 2 has green rope terrace
-deal_with_pos(total)
+while True:
+    player, query, card = construct_query()
+    if card == 0:
+        total = in_player_blind(query, player, total)
+    elif card == 2:
+        total = not_in_player(query, player, total)
+    else:
+        total = in_player(card, player, total)
+    deal_with_pos(total)

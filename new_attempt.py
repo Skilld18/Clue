@@ -98,5 +98,5 @@ for p1 in player([], p1c):
                         prob[total_key] += 1
                         count += 1
 
-for k in sorted(prob, key=prob.get, reverse=True):
-    print((prob[k] / count).__format__("0.3f"), k)
+# for k in sorted(prob, key=prob.get, reverse=True):
+    # print((prob[k] / count).__format__("0.3f"), k)
